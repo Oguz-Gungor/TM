@@ -1,0 +1,20 @@
+services:
+
+  db:
+    image: postgres
+    container_name: tm-postgres
+    environment:
+      - POSTGRES_DB=tm-postgres
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+      - PGPORT=5450
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+        reservations:
+          memory: 100M
+    expose:
+      - "5450"
+    ports:
+      - "5450:5450"
