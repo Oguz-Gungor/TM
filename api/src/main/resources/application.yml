@@ -9,6 +9,8 @@ spring:
     url: jdbc:postgresql://localhost:5450/tm-postgres
     password: password
     username: username
+jwt:
+  secret: "secret"
 org:
   jobrunr:
     background-job-server:
