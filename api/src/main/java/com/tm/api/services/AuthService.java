@@ -1,6 +1,7 @@
 package com.tm.api.services;
 
 import com.tm.api.exceptions.UserAlreadyExistsException;
+import com.tm.api.loaders.DatabaseLoader;
 import com.tm.api.model.dto.LoginResponse;
 import com.tm.api.model.dto.SignInDto;
 import com.tm.api.model.dto.UserDto;
@@ -38,7 +39,7 @@ public class AuthService implements UserDetailsService {
     }
 
     public LoginResponse signUp(UserDto data) throws UserAlreadyExistsException {
-        if (repository.findByFullName(data.getFullName()) != null) {
+        if (data.getFullName().equals(DatabaseLoader.RESERVED_ADMIN_USERNAME) || repository.findByFullName(data.getFullName()) != null) {
             throw new UserAlreadyExistsException("Username already exists");
         }
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.getPassword());
