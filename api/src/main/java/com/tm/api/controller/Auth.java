@@ -1,5 +1,6 @@
 package com.tm.api.controller;
 
+import com.tm.api.constants.ApiPaths;
 import com.tm.api.exceptions.UserAlreadyExistsException;
 import com.tm.api.model.dto.LoginResponse;
 import com.tm.api.model.dto.SignInDto;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(ApiPaths.AUTH)
 public class Auth {
     private final AuthService service;
 
