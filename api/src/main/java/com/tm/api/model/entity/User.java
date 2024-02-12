@@ -1,6 +1,6 @@
 package com.tm.api.model.entity;
 
-import com.tm.api.configuration.AuthConfiguration;
+import com.tm.api.constants.UserRoleKeys;
 import com.tm.api.model.enumerations.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -51,9 +51,9 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == UserRole.ADMIN) {
-            return List.of(new SimpleGrantedAuthority(AuthConfiguration.ADMIN_ROLE), new SimpleGrantedAuthority(AuthConfiguration.USER_ROLE));
+            return List.of(new SimpleGrantedAuthority(UserRoleKeys.ADMIN_ROLE), new SimpleGrantedAuthority(UserRoleKeys.USER_ROLE));
         }
-        return List.of(new SimpleGrantedAuthority(AuthConfiguration.USER_ROLE));
+        return List.of(new SimpleGrantedAuthority(UserRoleKeys.USER_ROLE));
     }
 
     @Override
