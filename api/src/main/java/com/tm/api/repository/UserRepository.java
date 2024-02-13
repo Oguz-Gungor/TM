@@ -2,13 +2,17 @@ package com.tm.api.repository;
 
 import com.tm.api.model.entity.User;
 import com.tm.api.model.enumerations.UserRole;
+import com.tm.api.model.projection.IUser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    UserDetails findByFullName(String fullName);
+    User findByFullName(String fullName);
 
-    UserDetails findByRole(UserRole role);
+    User findByRole(UserRole role);
+
+    Page<IUser> findAllBy(Pageable pageable);
 
 }
