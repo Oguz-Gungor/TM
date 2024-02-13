@@ -1,19 +1,39 @@
 package com.tm.api.controller;
 
 import com.tm.api.constants.ApiPaths;
+import com.tm.api.model.dto.SignUpDto;
+import com.tm.api.model.dto.UserDto;
+import com.tm.api.model.dto.UserInfoDto;
 import com.tm.api.model.entity.User;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.tm.api.services.AuthService;
+import com.tm.api.services.UserService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(ApiPaths.RESOURCES)
 public class Resources {
+
+    private final AuthService authService;
+    private final UserService userService;
+
+    public Resources(AuthService authService, UserService userService) {
+        this.authService = authService;
+        this.userService = userService;
+    }
+
     @GetMapping("/hi")
     public String resourcesTest() {
-        String fullName = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getFullName();
-        return "Welcome " + fullName;
+        return "Welcome " + authService.getAuthenticatedUserInfo().getFullName();
+    }
+
+    @GetMapping("/info")
+    public UserDto getUserInfo() {
+        return new UserDto(authService.getAuthenticatedUserInfo());
+    }
+
+    @PatchMapping("/update")
+    public UserInfoDto updateUserInfo(@RequestBody UserDto newUserInfo) {
+        return userService.updateUser(newUserInfo);
     }
 
 }
