@@ -1,8 +1,18 @@
 services:
 
+  server:
+    image: "tm-assignment"
+    build:
+      context: ./api
+    container_name: tm-assignment
+    depends_on:
+      - db
+    ports:
+      - "8084:8084"
   db:
     image: postgres
     container_name: tm-postgres
+    #  restart: always
     environment:
       - POSTGRES_DB=tm-postgres
       - POSTGRES_USER=username
