@@ -4,7 +4,7 @@ import com.tm.api.constants.ApiPaths;
 import com.tm.api.exceptions.UserAlreadyExistsException;
 import com.tm.api.model.dto.LoginResponse;
 import com.tm.api.model.dto.SignInDto;
-import com.tm.api.model.dto.UserDto;
+import com.tm.api.model.dto.SignUpDto;
 import com.tm.api.services.AuthService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +21,7 @@ public class Auth {
     }
 
     @PostMapping("/signUp")
-    public LoginResponse signUp(@RequestBody UserDto user) throws UserAlreadyExistsException {
+    public LoginResponse signUp(@RequestBody SignUpDto user) throws UserAlreadyExistsException {
         return service.signUp(user);
     }
 

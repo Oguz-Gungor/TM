@@ -4,7 +4,7 @@ import com.tm.api.exceptions.UserAlreadyExistsException;
 import com.tm.api.loaders.DatabaseLoader;
 import com.tm.api.model.dto.LoginResponse;
 import com.tm.api.model.dto.SignInDto;
-import com.tm.api.model.dto.UserDto;
+import com.tm.api.model.dto.SignUpDto;
 import com.tm.api.model.entity.User;
 import com.tm.api.model.enumerations.UserRole;
 import com.tm.api.repository.UserRepository;
@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,7 +39,11 @@ public class AuthService implements UserDetailsService {
         return repository.findByFullName(username);
     }
 
-    public LoginResponse signUp(UserDto data) throws UserAlreadyExistsException {
+    public User getAuthenticatedUserInfo() {
+        return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    }
+
+    public LoginResponse signUp(SignUpDto data) throws UserAlreadyExistsException {
         if (data.getFullName().equals(DatabaseLoader.RESERVED_ADMIN_USERNAME) || repository.findByFullName(data.getFullName()) != null) {
             throw new UserAlreadyExistsException("Username already exists");
         }

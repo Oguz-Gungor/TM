@@ -1,7 +1,9 @@
 package com.tm.api.model.entity;
 
 import com.tm.api.constants.UserRoleKeys;
+import com.tm.api.model.dto.UserInfoDto;
 import com.tm.api.model.enumerations.UserRole;
+import com.tm.api.utils.Operation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,6 +56,12 @@ public class User implements UserDetails {
             return List.of(new SimpleGrantedAuthority(UserRoleKeys.ADMIN_ROLE), new SimpleGrantedAuthority(UserRoleKeys.USER_ROLE));
         }
         return List.of(new SimpleGrantedAuthority(UserRoleKeys.USER_ROLE));
+    }
+
+    public void updateUser(UserInfoDto newInfo) {
+        Operation.setIfNotNull(newInfo.getFullName(), this::setFullName);
+        Operation.setIfNotNull(newInfo.getEmail(), this::setEmail);
+        Operation.setIfNotNull(newInfo.getDateBirthday(), this::setDateBirthday);
     }
 
     @Override

@@ -1,19 +1,25 @@
 package com.tm.api.model.dto;
 
+import com.tm.api.model.entity.User;
+import com.tm.api.model.enumerations.UserRole;
 import lombok.Data;
-import lombok.Getter;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
-import java.sql.Date;
-
-@Getter
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class UserDto {
-    private String email;
+@SuperBuilder
+public class UserDto extends UserInfoDto {
 
-    private Date dateBirthday;
+    private UserRole role;
 
-    private String fullName;
+    public UserDto(User user) {
+        super(user);
+        role = user.getRole();
+    }
 
-    private String password;
+    public UserDto(String fullName) {
+        this.fullName = fullName;
+    }
 
 }
