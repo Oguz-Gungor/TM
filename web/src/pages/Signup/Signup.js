@@ -1,17 +1,24 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useNavigate } from "react-router-dom";
+import Auth from "../../request/api/Auth";
+import { getToken, setToken } from "../../utils/TokenStorage";
+import "./Signup.scss";
 
 export default function Signup() {
   //api logic
   const handleSignUp = () => {
     console.log(name, password, email, birthDate);
-    //Auth.SignIn(name, password).then((response) => {
-    //  console.log(response.data);
-    //});
+    Auth.SignUp(email, birthDate, name, password).then((response) => {
+      if (response.status === 200) authenticate(response.data.token);
+    });
   };
+  useEffect(() => {
+    if (getToken() !== null) navigateHome();
+  }, []);
+
 
   //view logic
   const [name, setName] = useState();
@@ -27,13 +34,20 @@ export default function Signup() {
   const navigateSignup = () => {
     navigate("/login");
   };
+  const navigateHome = () => {
+    navigate("/");
+  };
+  const authenticate = (token) => {
+    setToken(token);
+    navigateHome();
+  };
   return (
-    <Box className="login-container">
+    <Box className="signup-container">
       <Typography>TM</Typography>
       <TextField label={"Name"} onChange={setFormField(setName)} />
       <TextField label={"Password"} onChange={setFormField(setPassword)} />
       <TextField label={"Email"} onChange={setFormField(setEmail)} />
-      <DatePicker onChange={(event) => console.log(event.$d)} />
+      <DatePicker onChange={(event) => setBirthDate(event.$d)} />
       <Box className="button-container">
         <Button onClick={handleSignUp} variant="contained">
           Signup

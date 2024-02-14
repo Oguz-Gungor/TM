@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import MainPageSlice from "./pages/Main/store";
+import UsersPageSlice from "./pages/Users/store";
 
 const reducer = combineReducers({
-    MainPageSlice,
+  MainPageSlice,
+  UsersPageSlice,
 });
 
 export const store = configureStore({

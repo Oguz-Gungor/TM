@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import "./MainLayout.scss";
+import "./PageLayout.scss";
 
-export default function MainLayout() {
+export default function PageLayout() {
   return (
-    <Box className="main-layout">
+    <Box className="page-layout">
       <Outlet />
     </Box>
   );

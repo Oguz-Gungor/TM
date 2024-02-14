@@ -1,22 +1,24 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Auth from "../../request/api/Auth";
 import "./Login.scss";
 import { useNavigate } from "react-router-dom";
+import { getToken, setToken } from "../../utils/TokenStorage";
 
 function Login() {
-
   //api logic
   const handleLogin = () => {
-    console.log(name, password);
     Auth.SignIn(name, password).then((response) => {
-      console.log(response.data);
+      if (response.status === 200) authenticate(response.data.token);
     });
   };
-
-  //view logic
   const [name, setName] = useState();
   const [password, setPassword] = useState();
+  useEffect(() => {
+    if (getToken() !== null) navigateHome();
+  }, []);
+
+  //view logic
   const setFormField = (setter) => (event) => {
     setter(event.target.value);
   };
@@ -24,6 +26,13 @@ function Login() {
 
   const navigateSignup = () => {
     navigate("/signUp");
+  };
+  const navigateHome = () => {
+    navigate("/");
+  };
+  const authenticate = (token) => {
+    setToken(token);
+    navigateHome();
   };
   return (
     <Box className="login-container">

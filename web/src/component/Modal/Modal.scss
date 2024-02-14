@@ -1,0 +1,13 @@
+.modal-wrapper {
+  width: 100vw;
+  height: 100vh;
+  pointer-events: stroke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .modal-container {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+}

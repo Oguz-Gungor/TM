@@ -1,10 +1,10 @@
 import Axios from "axios";
 import { toast } from "react-toastify";
+import { getToken } from "../utils/TokenStorage";
 const StatusCode = {
   Forbidden: 403,
 };
 
-const authTokenKey = "token";
 
 export default class BaseService {
   baseURL = "http://localhost:8084";
@@ -24,7 +24,7 @@ export default class BaseService {
   };
 
   createAxiosInstance = () => {
-    const token = localStorage.getItem(authTokenKey);
+    const token = getToken();
     const instance = Axios.create({
       headers: token
         ? {
@@ -33,7 +33,7 @@ export default class BaseService {
         : null,
 
       validateStatus: (status) =>
-        status >= 200 && status <= 500 && status !== 401 && status !== 400,
+        status >= 200 && status <= 500 && status !== 403 && status !== 400,
 
       baseURL: this.baseURL,
     });

@@ -1,36 +1,35 @@
 import "./App.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Login from "./pages/Login/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Main from "./pages/Main/Main";
-import MainLayout from "./Layout/MainLayout/MainLayout";
-import axios from "axios";
+import PageLayout from "./Layout/MainLayout/PageLayout";
 import Signup from "./pages/Signup/Signup";
+import MainLayout from "./Layout/MainLayout.js/MainLayout";
+import Alive from "./request/api/Alive";
+import Unavailable from "./pages/Unavailable/Unavailable";
+import Users from "./pages/Users/Users";
 
 function App() {
+  const [alive, setAlive] = useState(false);
   useEffect(() => {
-    var config = {
-      method: "get",
-      url: "http://localhost:8084/alive",
-      headers: {},
-    };
-
-    axios(config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    Alive().then(({ status }) => {
+      if (status == 200) setAlive(true);
+    });
   }, []);
-  return (
+  return !alive ? (
+    <Unavailable />
+  ) : (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
+        <Route path="/" element={<PageLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<Signup />} />
-          <Route path="/" element={<Main />} />
-          <Route path="/*" element={<Main />} />
+          <Route path="/" element={<MainLayout />}>
+            <Route path="/users" element={<Users />} />
+            <Route path="/" element={<Main />} />
+            <Route path="/*" element={<Main />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
