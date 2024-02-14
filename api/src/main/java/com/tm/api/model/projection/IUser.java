@@ -6,6 +6,8 @@ import java.sql.Date;
 
 public interface IUser {
 
+    Long getId();
+
     String getEmail();
 
     Date getDateBirthday();

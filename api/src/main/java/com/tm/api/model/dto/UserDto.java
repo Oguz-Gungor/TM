@@ -4,10 +4,12 @@ import com.tm.api.model.entity.User;
 import com.tm.api.model.enumerations.UserRole;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@NoArgsConstructor
 @SuperBuilder
 public class UserDto extends UserInfoDto {
 
