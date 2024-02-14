@@ -17,9 +17,4 @@ public class UserDto extends UserInfoDto {
         super(user);
         role = user.getRole();
     }
-
-    public UserDto(String fullName) {
-        this.fullName = fullName;
-    }
-
 }
