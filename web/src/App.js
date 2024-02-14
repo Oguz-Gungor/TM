@@ -1,11 +1,11 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { useEffect } from "react";
 import Login from "./pages/Login/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Main from "./pages/Main/Main";
 import MainLayout from "./Layout/MainLayout/MainLayout";
-var axios = require("axios");
+import axios from "axios";
+import Signup from "./pages/Signup/Signup";
 
 function App() {
   useEffect(() => {
@@ -28,6 +28,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route path="/login" element={<Login />} />
+          <Route path="/signUp" element={<Signup />} />
           <Route path="/" element={<Main />} />
           <Route path="/*" element={<Main />} />
         </Route>

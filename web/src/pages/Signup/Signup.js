@@ -1,45 +1,47 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import Auth from "../../request/api/Auth";
-import "./Login.scss";
+
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
-
+export default function Signup() {
   //api logic
-  const handleLogin = () => {
-    console.log(name, password);
-    Auth.SignIn(name, password).then((response) => {
-      console.log(response.data);
-    });
+  const handleSignUp = () => {
+    console.log(name, password, email, birthDate);
+    //Auth.SignIn(name, password).then((response) => {
+    //  console.log(response.data);
+    //});
   };
 
   //view logic
   const [name, setName] = useState();
   const [password, setPassword] = useState();
+  const [email, setEmail] = useState();
+  const [birthDate, setBirthDate] = useState();
+
   const setFormField = (setter) => (event) => {
     setter(event.target.value);
   };
   const navigate = useNavigate();
 
   const navigateSignup = () => {
-    navigate("/signUp");
+    navigate("/login");
   };
   return (
     <Box className="login-container">
       <Typography>TM</Typography>
       <TextField label={"Name"} onChange={setFormField(setName)} />
       <TextField label={"Password"} onChange={setFormField(setPassword)} />
+      <TextField label={"Email"} onChange={setFormField(setEmail)} />
+      <DatePicker onChange={(event) => console.log(event.$d)} />
       <Box className="button-container">
-        <Button onClick={handleLogin} variant="contained">
-          SignIn
+        <Button onClick={handleSignUp} variant="contained">
+          Signup
         </Button>
         <Button onClick={navigateSignup} variant="outlined">
-          Singup
+          SignIn
         </Button>
       </Box>
     </Box>
   );
 }
-
-export default Login;
