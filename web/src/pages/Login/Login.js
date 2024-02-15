@@ -4,23 +4,27 @@ import Auth from "../../request/api/Auth";
 import "./Login.scss";
 import { useNavigate } from "react-router-dom";
 import { getToken, setToken } from "../../utils/TokenStorage";
+import useForm from "../../customHooks/useForm";
+const formProps = {
+  name: { required: true },
+  password: { required: true },
+};
 
 function Login() {
   //api logic
+  const { form, isformValid, changeFormInput } = useForm(formProps);
   const handleLogin = () => {
-    Auth.SignIn(name, password).then((response) => {
+    Auth.SignIn(form.name.value, form.password.value).then((response) => {
       if (response.status === 200) authenticate(response.data.token);
     });
   };
-  const [name, setName] = useState();
-  const [password, setPassword] = useState();
   useEffect(() => {
     if (getToken() !== null) navigateHome();
   }, []);
 
   //view logic
-  const setFormField = (setter) => (event) => {
-    setter(event.target.value);
+  const setFormField = (key) => (event) => {
+    changeFormInput(key, event.target.value);
   };
   const navigate = useNavigate();
 
@@ -37,10 +41,24 @@ function Login() {
   return (
     <Box className="login-container">
       <Typography>TM</Typography>
-      <TextField label={"Name"} onChange={setFormField(setName)} />
-      <TextField label={"Password"} onChange={setFormField(setPassword)} />
+      <TextField
+        error={form.name.validation}
+        helperText={form.name.validation}
+        label={"Name"}
+        onChange={setFormField("name")}
+      />
+      <TextField
+        error={form.password.validation}
+        helperText={form.password.validation}
+        label={"Password"}
+        onChange={setFormField("password")}
+      />
       <Box className="button-container">
-        <Button onClick={handleLogin} variant="contained">
+        <Button
+          onClick={handleLogin}
+          disabled={!isformValid}
+          variant="contained"
+        >
           SignIn
         </Button>
         <Button onClick={navigateSignup} variant="outlined">

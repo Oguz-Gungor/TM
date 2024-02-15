@@ -8,16 +8,16 @@ export default function InfoCard({ email, dateBirthday, fullName, onEdit }) {
   const { open, handleOpen, handleClose } = useModal();
   return (
     <Box className="info-card-container">
+      <Box className="content-container">
+        <Box className="info-content">
+          <InfoElement label={"Name"} value={fullName} />
+          <InfoElement label={"Email"} value={email} />
+          <InfoElement label={"BirthDay"} value={dateBirthday} />
+        </Box>
+      </Box>
       <ButtonBase onClick={handleOpen} className="edit-button">
         <EditIcon />
       </ButtonBase>
-      <Box className="content-container">
-        <Box className="info-content">
-          <Typography>{email}</Typography>
-          <Typography>{dateBirthday}</Typography>
-          <Typography>{fullName}</Typography>
-        </Box>
-      </Box>
       <Modal open={open} onClose={handleClose}>
         <EditModal
           userInfo={{ email, dateBirthday, fullName }}
@@ -25,8 +25,19 @@ export default function InfoCard({ email, dateBirthday, fullName, onEdit }) {
             handleClose();
             onEdit(...params);
           }}
+          onCancel={handleClose}
         />
       </Modal>
     </Box>
   );
 }
+
+const InfoElement = ({ label, value }) => {
+  return (
+    value && (
+      <Typography>
+        {label}: {value}
+      </Typography>
+    )
+  );
+};

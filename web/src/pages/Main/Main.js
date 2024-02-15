@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import InfoCard from "../../component/InfoCard/InfoCard";
 import Resources from "../../request/api/Resources";
 import { getToken } from "../../utils/TokenStorage";
 import { updateUser } from "./store";
+import "./Main.scss";
 
 export default function Main() {
   //react logic
@@ -28,7 +29,8 @@ export default function Main() {
   };
 
   return (
-    <Box>
+    <Box className="main-page-container">
+      <Typography className="card-header">User Info</Typography>
       <InfoCard {...{ ...data, onEdit }} />
     </Box>
   );

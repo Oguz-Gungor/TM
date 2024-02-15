@@ -64,11 +64,11 @@ export default function Users() {
       <Modal open={open} onClose={handleClose}>
         <EditModal
           userInfo={payload}
-          //   userInfo={{ email, dateBirthday, fullName }}
           onSubmit={(params) => {
             onEdit({ ...params, id: payload.id });
             handleClose();
           }}
+          onCancel={handleClose}
         />
       </Modal>
     </Box>

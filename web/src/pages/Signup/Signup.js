@@ -6,12 +6,33 @@ import { useNavigate } from "react-router-dom";
 import Auth from "../../request/api/Auth";
 import { getToken, setToken } from "../../utils/TokenStorage";
 import "./Signup.scss";
+import Validators from "../../utils/Validators";
+import useForm from "../../customHooks/useForm";
+
+const formProps = {
+  name: { required: true },
+  password: { required: true },
+  email: {
+    required: true,
+    validator: (value, form) =>
+      Validators.validateEmail(value) ? null : "Invalid email",
+  },
+  birthDate: {
+    required: true,
+  },
+};
 
 export default function Signup() {
   //api logic
+
+  const { form, isformValid, changeFormInput } = useForm(formProps);
   const handleSignUp = () => {
-    console.log(name, password, email, birthDate);
-    Auth.SignUp(email, birthDate, name, password).then((response) => {
+    Auth.SignUp(
+      form.email.value,
+      form.birthDate.value,
+      form.name.value,
+      form.password.value
+    ).then((response) => {
       if (response.status === 200) authenticate(response.data.token);
     });
   };
@@ -19,15 +40,9 @@ export default function Signup() {
     if (getToken() !== null) navigateHome();
   }, []);
 
-
   //view logic
-  const [name, setName] = useState();
-  const [password, setPassword] = useState();
-  const [email, setEmail] = useState();
-  const [birthDate, setBirthDate] = useState();
-
-  const setFormField = (setter) => (event) => {
-    setter(event.target.value);
+  const setFormField = (key) => (event) => {
+    changeFormInput(key, event.target.value);
   };
   const navigate = useNavigate();
 
@@ -44,12 +59,33 @@ export default function Signup() {
   return (
     <Box className="signup-container">
       <Typography>TM</Typography>
-      <TextField label={"Name"} onChange={setFormField(setName)} />
-      <TextField label={"Password"} onChange={setFormField(setPassword)} />
-      <TextField label={"Email"} onChange={setFormField(setEmail)} />
-      <DatePicker onChange={(event) => setBirthDate(event.$d)} />
+      <TextField
+        error={form.name.validation}
+        helperText={form.name.validation}
+        label={"Name"}
+        onChange={setFormField("name")}
+      />
+      <TextField
+        error={form.password.validation}
+        helperText={form.password.validation}
+        label={"Password"}
+        onChange={setFormField("password")}
+      />
+      <TextField
+        label={"Email"}
+        error={form.email.validation}
+        helperText={form.email.validation}
+        onChange={setFormField("email")}
+      />
+      <DatePicker
+        onChange={(event) => changeFormInput("birthDate", event.$d)}
+      />
       <Box className="button-container">
-        <Button onClick={handleSignUp} variant="contained">
+        <Button
+          onClick={handleSignUp}
+          variant="contained"
+          disabled={!isformValid}
+        >
           Signup
         </Button>
         <Button onClick={navigateSignup} variant="outlined">
