@@ -7,4 +7,4 @@ RUN mvn package spring-boot:repackage
 RUN mvn -f ./pom.xml clean package
 ENTRYPOINT ["java", "-jar", "target/api-0.0.1-SNAPSHOT.jar"]
 
-EXPOSE 8082
+EXPOSE 8084
