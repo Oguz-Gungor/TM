@@ -28,3 +28,14 @@ services:
       - "5450"
     ports:
       - "5450:5450"
+  web:
+    image: "web"
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    environment:
+      PORT: 3000
